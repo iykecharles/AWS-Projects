@@ -1,0 +1,63 @@
+api gateway : arn:aws:execute-api:eu-north-1:827950560876:7rw1ala46l/*/POST/
+api gateway : https://7rw1ala46l.execute-api.eu-north-1.amazonaws.com/dev
+dynamodb : arn:aws:dynamodb:eu-north-1:827950560876:table/bodyMassIndexCalculation
+
+
+api gateway : https://voamva1kyj.execute-api.eu-north-1.amazonaws.com/dev
+
+dynamodb arn:aws:dynamodb:eu-north-1:827950560876:table/bodymassindextable
+
+3:13 Project#1 : Deploy Wordpress server on EC2 ==> Tech stack [EC2, Linux, MySQL, IAM Security Groups]
+
+3:57 Project#2 : Manupulating AWS resources using CLI - Create two S3 buckets, Upload files in one bucket, Use CLI to copy from that bucket to the other ==>  [AWS CLI, S3]
+
+3:27 Project#3 : Packing up & Restoring EC2 Servers - create EC2 instance -> create a text file inside save some text.. Replicate the instance and observe the same text in the new instance.
+
+5:23 Project#4 : Advanced Wordpress Deployment (more secure & scalable way)==>  [Loadbalancer, EC2, RDS, VPC, Bastion host]
+
+7:08 Project#5 : Autoscaling
+
+
+
+
+lambda
+
+import json
+import boto3
+from boto3.dynamodb.types import Decimal
+
+mydynamodb = boto3.resource("dynamodb")
+table_name = mydynamodb.Table("bodymassindextable")
+
+def lambda_handler(event, context):
+    name = event['name']
+    number1 = Decimal(str(event['number1']))
+    number2 = Decimal(str(event['number2']))
+    bmiCategory = event['bmiCategory']
+
+    
+    bmi = number1 / (number2 * number2)
+
+    response = table_name.put_item(
+        Item={
+            'ID': str(bmi),
+            'name': name,
+            'number1': number1,
+            'number2': number2,
+            'bmiCategory': bmiCategory,
+        }
+    )
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps(f'Hello! Your body mass index is {bmi}')
+    }
+
+
+
+lambda-function-test
+
+
+dec 30,2024
+api gateway : https://h8o3t0xq05.execute-api.us-east-1.amazonaws.com/dev
+dynamodb : arn:aws:dynamodb:us-east-1:827950560876:table/bmi_table

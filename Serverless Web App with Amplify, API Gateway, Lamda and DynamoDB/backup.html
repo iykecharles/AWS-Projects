@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Body Mass Index Calculation</title>
+</head>
+
+<body>
+    <!-- Your Navbar Code -->
+    <!-- navbar -->
+	<nav class="navbar navbar-expand-lg bg-dark text-light navbar-dark py-3 fixed-top">
+    <div class="container">
+      <a href="#" class="navbar-brand">Admin, welcome!</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="navbar navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a href="/home" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="#Ourcourses" class="nav-link">Our Courses</a>
+          </li>
+          <li class="nav-item">
+            <a href="/profile" class="nav-link">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a href="/logout" class="nav-link">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a href="/checkresult" class="nav-link">Check Result</a>
+          </li>
+          <li class="nav-item">
+            <a href="/insertquestion" class="nav-link">Create Course</a>
+          </li>
+          <li class="nav-item">
+            <a href="/question" class="nav-link">Question Dashboard</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <!-- Your Showcase Code -->
+    <div class="container p-5">
+      <div class="d-sm-flex p-5 align-items-center justify-content-between">
+        <div>
+          <h1>
+            Want to calculate your <span class="text-primary">Body Mass Index?</span>
+            <p class="lead py-4">
+              Knowing your Body Mass Index (BMI) provides a quick assessment of your body's weight relative to your height. Benefits include understanding health risks associated with weight, aiding in setting fitness goals, and identifying potential areas for improvement in overall health. Do enjoy Yourself.
+            </p>
+            <a href="#Ourcourses">
+              <button class="btn btn-primary btn-lg text-capitalize">
+                Okay, Let's Go!
+              </button>
+            </a>
+          </h1>
+        </div>
+        <img class="img-fluid w-50" src="img/bussiness-man.png" alt="">
+      </div>
+
+    <section class="bg-dark p-5 text-light text-center text-sm-start">
+        <!-- ... (existing content) ... -->
+        <form id="calcForm">
+            <div class="form-group">
+                <label for="name">Please enter your name:</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+                <label for="number1">Please enter your weight in kilograms:</label>
+                <input type="number" class="form-control" id="number1" placeholder="Enter weight">
+            </div>
+            <div class="form-group">
+                <label for="number2">Please enter your height in meters:</label>
+                <input type="number" class="form-control" id="number2" placeholder="Enter height">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="calculateBMI()">Calculate</button>
+        </form>
+        <div class="result" id="result"></div>
+    </section>
+
+
+    <!-- Your Footer Section -->
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+    <!-- Your JavaScript for BMI Calculation -->
+    <script>
+        function calculateBMI() {
+            var height = parseFloat(document.getElementById('number2').value);
+            var weight = parseFloat(document.getElementById('number1').value);
+
+            // Calculate BMI
+            var bmi = (weight) / (height * height);
+
+            // Display result
+            document.getElementById('result').innerHTML = "Your BMI is: " + bmi.toFixed(2);
+        }
+    </script>
+
+</body>
+
+</html>
+
+
+<script>
+    function calculateBMI() {
+        var name = document.getElementById('name').value;
+        var height = parseFloat(document.getElementById('number2').value);
+        var weight = parseFloat(document.getElementById('number1').value);
+
+        // Calculate BMI
+        var bmi = (weight) / (height * height);
+
+        // Display result
+        document.getElementById('result').innerHTML = "Your BMI is: " + bmi.toFixed(2);
+
+        // Prepare data for API call
+        var data = {
+            "name": name,
+            "number1": weight,
+            "number2": height
+        };
+
+        // Make API call to your endpoint (replace 'YOUR_ENDPOINT_URL' with your actual API Gateway URL)
+        fetch('YOUR_ENDPOINT_URL', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => console.log(data)) // Handle response if needed
+        .catch(error => console.error('Error:', error));
+    }
+</script>
